@@ -52,7 +52,7 @@ public class SmartLibrary2 {
                 System.out.println("\nMenu Utama:");
                 System.out.println("1. Tambah Koleksi");
                 System.out.println("2. Lihat Daftar Koleksi");
-                System.out.println("3. Cari Koleksi ");
+                System.out.println("3. Cari Koleksi");
                 System.out.println("4. Keluar");
                 System.out.print("Pilih Menu: 1-4: ");
                 
@@ -62,11 +62,10 @@ public class SmartLibrary2 {
                 switch(pilihan) {
                     case 1 -> {
                         if (jumlahKoleksi < daftarKoleksi.length) {
-                                                 
                             System.out.println("\n-- Pilih Jenis Koleksi --");
                             System.out.println("1. Buku Cetak Fisik");
                             System.out.println("2. E-Book Digital");
-                            System.out.println("3.majalah");
+                            System.out.println("3. Majalah");
                             System.out.print("Pilihan (1/2/3): ");
                             int jenis = scanner.nextInt();
                             scanner.nextLine();
@@ -101,13 +100,6 @@ public class SmartLibrary2 {
                             System.out.println("Sukses! Koleksi berhasil ditambahkan.");
                             System.out.print("Tekan Enter untuk melanjutkan...");
                             scanner.nextLine();
-                            
-                            
-                            Koleksi bukuBaru = new Koleksi(judulBaru, pengarangBaru, tahunBaru);
-                            daftarKoleksi[jumlahKoleksi] = bukuBaru;
-                            
-                            jumlahKoleksi++;
-                            System.out.println("Sukses! Koleksi berhasil ditambahkan.");
                         } else {
                             System.out.println("Maaf, kapasitas rak Koleksi sudah penuh!");
                         }
@@ -120,10 +112,23 @@ public class SmartLibrary2 {
                             for (int i = 0; i < jumlahKoleksi; i++) {
                                 System.out.print((i + 1) + ". ");
                                 daftarKoleksi[i].tampilkanInfo();
-                                 simulasiPinjam(daftarKoleksi[i]);
-                                 System.out.println();
+                                simulasiPinjam(daftarKoleksi[i]);
+                           
+                                daftarKoleksi[i].hitungDendaKeterlambatan();
+                             
+                                if (daftarKoleksi[i] instanceof DapatDipinjam) {
+                                    DapatDipinjam itemFisik = (DapatDipinjam) daftarKoleksi[i];
+                                    itemFisik.prosesPinjamFisik();
+                                }
+                       
+                                if (daftarKoleksi[i] instanceof DapatDinilai) {
+                                    DapatDinilai itemBisaDinilai = (DapatDinilai) daftarKoleksi[i];
+                                    itemBisaDinilai.beriRating(5);
+                                }
+                                
+                                System.out.println();
                             }
-                            System.out.println("\n* Total Buku Fisik yang Terdaftar: " + Koleksi.totalKoleksiBerhasilDibuat);
+                            System.out.println("* Total Item Perpustakaan: " + Koleksi.totalKoleksiBerhasilDibuat);
                         }
                         System.out.print("Tekan Enter untuk melanjutkan...");
                         scanner.nextLine(); 
